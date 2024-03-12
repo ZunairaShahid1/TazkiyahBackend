@@ -1,15 +1,20 @@
+import { AssignStudentModel } from '../Model/AssignStudentModel.js';
 import { RegisterationModel } from './../Model/registerationModel.js';
 
 export const RegisterUser = async (req, res) => {
-    const sapid = req.body.sapid;
-    const email = req.body.email;
-    const password = req.body.password;
+    const {sapid, email, password, dept, subDept} = req.body;
     const isStudent = email.toLowerCase().includes('student');
+    const isManager = email.toLowerCase().includes('manager');
+    const isMentor = email.toLowerCase().includes('mentor');
+    const isCentralTarbiyah = email.toLowerCase().includes('centraltarbiyah');
 
     try{
-        if(!isStudent) throw new Error("Only Students can register")
+        if(!isStudent && !isManager && !isMentor && !isCentralTarbiyah) throw new Error("You are not allowed to Register")
         if(!sapid || !email || !password) throw new Error('Please Fill All Fields');
-        const data = await RegisterationModel.create({sapid, email, password, isStudent});
+        const data = await RegisterationModel.create({sapid, email, password, isStudent, isManager, isMentor, isCentralTarbiyah, dept, subDept});
+        if(isMentor){
+            await AssignStudentModel.create({mentorID: data._id, sapID: sapid });
+        }
         res.status(200).json({
             status: 'success',
             data

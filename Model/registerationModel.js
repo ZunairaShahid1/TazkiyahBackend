@@ -27,6 +27,20 @@ const RegisterationSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     }, //tarbiyah@gmail.com
+    dept: {
+        enum: ['FC', 'Pharmacy', 'DBD', 'Psychology', ''],
+        type: String,
+        default: ''
+    },
+    subDept: {
+        enum: ['Software Engineering', 'Computer Science', 'Computer Arts', ''],
+        type: String,
+        default: ''
+    },
+    isAssigned: {
+        type: Boolean,
+        default: false
+    }
 })
 
 export const RegisterationModel = mongoose.model("Registeration", RegisterationSchema);
