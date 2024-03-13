@@ -8,8 +8,13 @@ const AssignStudent = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
     },
     assignedStudents: [{
-        type: mongoose.Types.ObjectId,
         sapID: {
+            type: String
+        },
+        studentID: {
+            type: mongoose.Types.ObjectId,
+        },
+        department: {
             type: String
         }
     }]
