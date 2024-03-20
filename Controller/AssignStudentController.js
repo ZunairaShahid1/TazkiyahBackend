@@ -36,7 +36,7 @@ export const removeStudent = async (req, res) => {
             throw new Error("Invalid ID");
         }
 
-        const registerationData = await RegisterationModel.findOne({sapid: sapId});
+        const registerationData = await RegisterationModel.findOne({ sapid: sapId });
         const mentorData = await AssignStudentModel.findOne({ mentorID });
         if (!mentorData) {
             throw new Error("Mentor not found");
@@ -84,7 +84,12 @@ export const getStudent = async (req, res) => {
 
 export const getMentorDetails = async (req, res) => {
     try {
-        const data = await AssignStudentModel.aggregate([
+        const { dept, subDept } = req.query;
+        const filters = { dept: "", subDept: "" };
+        if (dept) filters.dept = dept;
+        if (subDept) filters.subDept = subDept;
+
+        const aggregationPipeline = [
             {
                 $project: {
                     "sapID": 1,
@@ -99,10 +104,26 @@ export const getMentorDetails = async (req, res) => {
                                 department: "$$student.department"
                             }
                         }
-                    }
+                    },
+                    "dept": 1,
+                    "subDept": 1
                 }
             }
-        ]);
+        ];
+
+        // Add $match stage only if dept is not empty
+        if (filters.dept !== "") {
+            aggregationPipeline.push({
+                $match: {
+                    $and: [
+                        { "dept": filters.dept },
+                        { "subDept": filters.subDept }
+                    ]
+                }
+            });
+        }
+
+        const data = await AssignStudentModel.aggregate(aggregationPipeline);
         res.status(200).json({
             status: "success",
             data

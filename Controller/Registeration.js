@@ -13,7 +13,7 @@ export const RegisterUser = async (req, res) => {
         if(!sapid || !email || !password) throw new Error('Please Fill All Fields');
         const data = await RegisterationModel.create({sapid, email, password, isStudent, isManager, isMentor, isCentralTarbiyah, dept, subDept});
         if(isMentor){
-            await AssignStudentModel.create({mentorID: data._id, sapID: sapid });
+            await AssignStudentModel.create({mentorID: data._id, sapID: sapid, dept, subDept });
         }
         res.status(200).json({
             status: 'success',

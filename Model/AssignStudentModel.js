@@ -17,8 +17,17 @@ const AssignStudent = new mongoose.Schema({
         department: {
             type: String
         }
-    }]
+    }],
+    dept: {
+        enum: ['FC', 'Pharmacy', 'DBD', 'Psychology', ''],
+        type: String,
+        default: ''
+    },
+    subDept: {
+        enum: ['Software Engineering', 'Computer Science', 'Computer Arts', ''],
+        type: String,
+        default: ''
+    },
 });
 
 export const AssignStudentModel = mongoose.model('AssignedStudents', AssignStudent);
-
