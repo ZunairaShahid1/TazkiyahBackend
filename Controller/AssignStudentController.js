@@ -69,10 +69,11 @@ export const getStudent = async (req, res) => {
         if (!mongoose.Types.ObjectId.isValid(mentorID)) {
             throw new Error("Invalid Mentor ID");
         }
-        const students = await AssignStudentModel.find({ mentorID });
+        const students = await AssignStudentModel.findOne({ mentorID });
+        if(!students) throw new Error('No mentor Found');
         res.status(200).json({
             status: "success",
-            data: students.assignedStudents
+            data: students
         });
     } catch (err) {
         res.status(400).json({

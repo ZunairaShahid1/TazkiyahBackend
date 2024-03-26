@@ -1,6 +1,10 @@
-import mongoose from "mongooose"
+import mongoose from "mongoose"
 
 const AttendeceSchema = new mongoose.Schema({
+    mentorId: {
+        type: mongoose.Types.ObjectId,
+        require: true
+    },
     eventName: {
         type:String,
         required: true
@@ -9,15 +13,18 @@ const AttendeceSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
-    eventAttendece: [
+    eventAttendence: [
         {
-            name: {
+            sapID: {
                 type: String,
                 required: true
             },
-            SAPID: {
+            studentID: {
                 type: String,
                 required: true
+            },
+            department: {
+                type: String
             },
             status: {
                 type: String,
