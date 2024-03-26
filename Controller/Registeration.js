@@ -48,3 +48,20 @@ export const LoginUser = async (req, res) => {
         })
     }
 }
+
+export const getUserById = async (req, res) => {
+    const {id} = req.params;
+    try{
+        const data = await RegisterationModel.findById(id);
+        if(!data) throw new Error('Invalid ID');
+        res.status(200).json({
+            status: 'success',
+            data
+        })
+    }catch(err){
+        res.status(400).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+}

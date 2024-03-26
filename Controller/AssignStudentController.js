@@ -16,6 +16,7 @@ export const addStudent = async (req, res) => {
         await data.save();
         const registerationData = await RegisterationModel.findById(studentID);
         registerationData.isAssigned = true;
+        registerationData.mentorId = mentorID;
         await registerationData.save();
         res.status(200).json({
             status: "success",
@@ -48,6 +49,7 @@ export const removeStudent = async (req, res) => {
         mentorData.assignedStudents.splice(studentIndex, 1);
         await mentorData.save();
         registerationData.isAssigned = false;
+        registerationData.mentorId = '';
         await registerationData.save();
 
         res.status(200).json({

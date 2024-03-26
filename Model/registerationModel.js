@@ -40,6 +40,9 @@ const RegisterationSchema = new mongoose.Schema({
     isAssigned: {
         type: Boolean,
         default: false
+    },
+    mentorId: {
+        type: mongoose.Types.ObjectId
     }
 })
 
