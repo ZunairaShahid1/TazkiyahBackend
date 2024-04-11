@@ -6,12 +6,22 @@ const AttendeceSchema = new mongoose.Schema({
         require: true
     },
     eventName: {
-        type:String,
+        type: String,
         required: true
     },
     eventDate: {
         type: Date,
         required: true
+    },
+    dept: {
+        enum: ['FC', 'Pharmacy', 'DBD', 'Psychology', ''],
+        type: String,
+        default: ''
+    },
+    subDept: {
+        enum: ['Software Engineering', 'Computer Science', 'Computer Arts', ''],
+        type: String,
+        default: ''
     },
     eventAttendence: [
         {
