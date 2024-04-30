@@ -13,6 +13,15 @@ const UploadSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
+    readBy: [
+        {
+            type: mongoose.Types.ObjectId
+        }
+    ],
+    uploadedDate: {
+        type: Date,
+        default: Date.now
+    },
     link: {
         type: String,
         default: ''
