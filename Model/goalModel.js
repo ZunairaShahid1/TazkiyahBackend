@@ -7,7 +7,10 @@ const GoalSchema = new mongoose.Schema({
         require: true
     },
     goalTitle: String,
-    goalStatus: String,
+    goalStatus: {
+        type: String,
+        default: 'Pending'
+    },
     startDate: String,
     endDate: String,
     time: String,

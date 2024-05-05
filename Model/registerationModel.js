@@ -11,6 +11,18 @@ const RegisterationSchema = new mongoose.Schema({
         index: true
     },
     password: String,
+    completedGoals: {
+        type: Number,
+        default: 0
+    },
+    notCompletedGoals: {
+        type: Number,
+        default: 0
+    },
+    pendingGoals: {
+        type: Number,
+        default: 0
+    },
     isStudent: {
         type: Boolean,
         default: false,
