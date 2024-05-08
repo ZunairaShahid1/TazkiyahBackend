@@ -1,5 +1,9 @@
 import { AssignStudentModel } from '../Model/AssignStudentModel.js';
+import { ForgetPasswordModel } from '../Model/ForgetPasswordModel.js';
 import { RegisterationModel } from './../Model/registerationModel.js';
+import { Resend } from "resend"
+
+const resend = new Resend("re_55SZ9Msc_B795Z4pRmpKaN2pnhTbt1TfT");
 
 export const RegisterUser = async (req, res) => {
     const {sapid, email, password, dept, subDept} = req.body;
@@ -62,6 +66,81 @@ export const getUserById = async (req, res) => {
         res.status(400).json({
             status: 'error',
             message: err.message
+        })
+    }
+}
+
+
+export const forgetPassword = async (req, res) => {
+    const {email} = req.query;
+    try{
+        const data = await RegisterationModel.findOne({email: email});
+        if(!data) throw new Error("Email not Exist")
+        const forgetData = await ForgetPasswordModel.findOne({userId: data._id});
+        const key = Math.random().toString(36).substring(2, 10); 
+        if(!forgetData){
+            await ForgetPasswordModel.create({userId: data._id, temporaryKey: key});
+        }else{
+            forgetData.temporaryKey = key;
+            await forgetData.save();
+        }
+        await resend.emails.send({
+            from: 'Forget Password <tazkiyah@ffsboyswah.com>',
+            to: `${email}`,
+            subject: 'Forget Password',
+            html: `<p>Here is the key <strong>${key}</strong>. Please keep it confidential and save.</p>`
+        });
+        res.status(200).json({
+            status: true
+        })
+    }catch(err){
+        console.log(err.message);
+        res.status(400).json({
+            error: err.message
+        })
+    }
+}
+
+export const verifyForgetPassword = async (req, res) => {
+    const {email} = req.query;
+    try{
+        const data = await RegisterationModel.findOne({email: email});
+        const forgetData = await ForgetPasswordModel.findOne({userId: data._id});
+        if(forgetData.temporaryKey !== req.params.passKey){
+            throw new Error("Invalid Key")
+        }
+        forgetData.isVerified = true;
+        await forgetData.save();
+        res.status(200).json({
+            status: true
+        })
+    }catch(err){
+        console.log(err.message);
+        res.status(400).json({
+            error: err.message
+        })
+    }
+}
+
+export const changePassword  = async (req, res) => {
+    const {email} = req.query;
+    const {password} = req.query;
+    try{
+        console.log(email)
+        const data = await RegisterationModel.findOne({email: email});
+        const forgetData = await ForgetPasswordModel.findOne({userId: data._id});
+        if(!forgetData.isVerified){
+            throw new Error('No Verified');
+        }
+        data.password = password;
+        await data.save();
+        res.status(200).json({
+            status: true
+        })
+    }catch(err){
+        console.log(err.message);
+        res.status(400).json({
+            error: err.message
         })
     }
 }
