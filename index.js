@@ -12,7 +12,9 @@ import { SendEmail } from "./utils/sendEmail.js";
 
 import { GoalModel } from "./Model/goalModel.js";
 import { RegisterationModel } from "./Model/registerationModel.js";
+import { Resend } from "resend";
 
+const resend = new Resend("re_55SZ9Msc_B795Z4pRmpKaN2pnhTbt1TfT");
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -47,7 +49,12 @@ app.post('/contact', async (req, res) => {
     const { name, email, phone, message } = req.body;
     try {
         await contactModel.create({ name, email, phone, message });
-        SendEmail(name, email, phone, message);
+        await resend.emails.send({
+            from: 'Forget Password <tazkiyah@ffsboyswah.com>',
+            to: `tazkiyahriphah56@gmail.com`,
+            subject: 'Forget Password',
+            html: `Here is the Message Recieved. <br><br> Name: ${name} <br> Email: ${email}<br> Phone: ${phone}<br> Message: ${message}<br><br>`
+        });
         res.status(200).json({ status: 'success' });
     } catch (err) {
         res.status(400).json({ status: 'error', message: err.message });
