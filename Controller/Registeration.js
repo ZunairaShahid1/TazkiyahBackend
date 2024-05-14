@@ -144,3 +144,22 @@ export const changePassword  = async (req, res) => {
         })
     }
 }
+
+export const changePasswordAndVerify  = async (req, res) => {
+    const {oldPassword, newPassword, email} = req.query;
+    try{
+        const data = await RegisterationModel.findOne({email: email});
+        if(data.password !== oldPassword){
+            throw new Error('Invalid Password');
+        }
+        data.password = newPassword;
+        await data.save();
+        res.status(200).json({
+            status: true
+        })
+    }catch(err){
+        res.status(400).json({
+            error: err.message
+        })
+    }
+}
