@@ -53,7 +53,7 @@ app.post('/contact', async (req, res) => {
             from: 'Forget Password <tazkiyah@ffsboyswah.com>',
             to: `tazkiyahriphah56@gmail.com`,
             subject: 'Forget Password',
-            html: `Here is the Message Recieved. <br><br> Name: ${name} <br> Email: ${email}<br> Phone: ${phone}<br> Message: ${message}<br><br>`
+            html: `Here is the Message Recieved. <br><br> SAP ID: ${name} <br> Email: ${email}<br> Phone: ${phone}<br> Message: ${message}<br><br>`
         });
         res.status(200).json({ status: 'success' });
     } catch (err) {
