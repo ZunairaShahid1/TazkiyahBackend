@@ -12,6 +12,8 @@ import { SendEmail } from "./utils/sendEmail.js";
 import { GoalModel } from "./Model/goalModel.js";
 import { RegisterationModel } from "./Model/registerationModel.js";
 import { Resend } from "resend";
+import { createFeedback, getFeedBack } from "./Controller/Feedback.js";
+import EbookRoutes from "./Routes/EbookRoutes.js";
 
 const resend = new Resend("re_55SZ9Msc_B795Z4pRmpKaN2pnhTbt1TfT");
 const app = express();
@@ -26,6 +28,9 @@ app.use('/assign', AssignRoutes);
 app.use('/upload', uploadRoutes);
 app.use('/attendence', SessionAttendenceRoutes);
 app.use('/notification', NotificationRoutes);
+app.use('/ebook', EbookRoutes);
+app.post('/feedback', createFeedback)
+app.get('/feedback', getFeedBack)
 
 app.get('/performanceAnalytics/:id', async (req, res) => {
     const userId = req.params.id;
