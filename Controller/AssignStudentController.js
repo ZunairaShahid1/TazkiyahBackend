@@ -139,8 +139,10 @@ export const getMentorDetails = async (req, res) => {
     }
 }
 export const getAllUnAssignedStudents = async (req, res) => {
+    const {userId} = req.query;
     try {
-        const data = await RegisterationModel.find({ isStudent: true, isAssigned: false });
+        const managerData = await RegisterationModel.findById(userId);
+        const data = await RegisterationModel.find({ isStudent: true, isAssigned: false, dept: managerData.dept, subDept: managerData.subDept });
         res.status(200).json({
             status: "success",
             data

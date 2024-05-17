@@ -10,12 +10,12 @@ export const RegisterUser = async (req, res) => {
     const isStudent = email.toLowerCase().includes('student');
     const isManager = email.toLowerCase().includes('manager');
     const isMentor = email.toLowerCase().includes('mentor');
-    const isCentralTarbiyah = email.toLowerCase().includes('centraltarbiyah');
+    // const isCentralTarbiyah = email.toLowerCase().includes('centraltarbiyah');
 
     try{
         if(!isStudent && !isManager && !isMentor && !isCentralTarbiyah) throw new Error("You are not allowed to Register")
         if(!sapid || !email || !password) throw new Error('Please Fill All Fields');
-        const data = await RegisterationModel.create({sapid, email, password, isStudent, isManager, isMentor, isCentralTarbiyah, dept, subDept});
+        const data = await RegisterationModel.create({sapid, email, password, isStudent, isManager, isMentor, isCentralTarbiyah : false, dept, subDept});
         if(isMentor){
             await AssignStudentModel.create({mentorID: data._id, sapID: sapid, dept, subDept });
         }
