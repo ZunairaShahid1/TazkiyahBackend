@@ -39,12 +39,11 @@ export const LoginUser = async (req, res) => {
     try{
         if(!email || !password) throw new Error('Please Fill All Fields');
         const data = await RegisterationModel.find({email : email, password: password});
-        if(!data) throw new Error('Invalid Credentials');
+        if(!data || !data.length) throw new Error('Invalid Credentials');
         res.status(200).json({
             status: 'success',
             data
         })
-
     }catch(err){
         res.status(400).json({
             status: 'error',

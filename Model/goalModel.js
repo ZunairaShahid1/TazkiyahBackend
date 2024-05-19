@@ -7,6 +7,9 @@ const GoalSchema = new mongoose.Schema({
         require: true
     },
     goalTitle: String,
+    isPublic: {
+        type: Boolean,
+    },
     goalStatus: {
         type: String,
         default: 'Pending'
