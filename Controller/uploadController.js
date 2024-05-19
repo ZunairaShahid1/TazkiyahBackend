@@ -53,6 +53,40 @@ export const getAllUplaodByMentorID = async (req, res) => {
     }
 }
 
+export const deleteUploadedMaterial = async (req, res) => {
+    const {materialId} = req.params;
+    try {
+        const data = await MentoringModel.findByIdAndDelete(materialId);
+        res.status(200).json({
+            status: "success",
+            data
+        })
+    } catch (err) {
+        res.status(400).json({
+            status: "failed",
+            messgae: err.message
+        })
+    }
+}
+
+export const updateUploadedMaterial = async (req, res) => {
+    const {materialId} = req.params;
+    const data1 = req.body;
+    try {
+        const data = await MentoringModel.findByIdAndUpdate(materialId, data1);
+        res.status(200).json({
+            status: "success",
+            data
+        })
+    } catch (err) {
+        console.log(err.message)
+        res.status(400).json({
+            status: "failed",
+            messgae: err.message
+        })
+    }
+}
+
 export const getAllTarbiyahNotifications = async (req, res) => {
     try {
         const tarbiyahId = await RegisterationModel.findOne({isCentralTarbiyah: true});

@@ -7,13 +7,13 @@ import AssignRoutes from "./Routes/AssignStudentRoutes.js";
 import uploadRoutes from "./Routes/uploadRoutes.js";
 import SessionAttendenceRoutes from "./Routes/SessionAttendenceRoutes.js";
 import NotificationRoutes from "./Routes/notificationRoutes.js";
+import EbookRoutes from "./Routes/EbookRoutes.js";
 import { contactModel } from "./Model/contactModel.js";
 import { SendEmail } from "./utils/sendEmail.js";
 import { GoalModel } from "./Model/goalModel.js";
 import { RegisterationModel } from "./Model/registerationModel.js";
 import { Resend } from "resend";
 import { createFeedback, getFeedBack } from "./Controller/Feedback.js";
-import EbookRoutes from "./Routes/EbookRoutes.js";
 
 const resend = new Resend("re_55SZ9Msc_B795Z4pRmpKaN2pnhTbt1TfT");
 const app = express();

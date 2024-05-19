@@ -1,7 +1,7 @@
 import express from "express"
 const uploadRoutes = express.Router()
 import multer from 'multer';
-import { getAllTarbiyahNotifications, getAllUplaodByMentorID, updateReadBy, uploadFile, uploadlink } from "../Controller/uploadController.js";
+import { deleteUploadedMaterial, getAllTarbiyahNotifications, getAllUplaodByMentorID, updateReadBy, updateUploadedMaterial, uploadFile, uploadlink } from "../Controller/uploadController.js";
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -18,6 +18,8 @@ uploadRoutes.get('/tarbiyah', getAllTarbiyahNotifications)
 uploadRoutes.post('/:mentorID', upload.single('file'), uploadFile)
 uploadRoutes.post('/link/:mentorID', uploadlink)
 uploadRoutes.get('/:mentorID', getAllUplaodByMentorID)
+uploadRoutes.delete('/:materialId', deleteUploadedMaterial)
+uploadRoutes.put('/:materialId', updateUploadedMaterial)
 uploadRoutes.patch('/:materialID/:studentID/:ownerID', updateReadBy)
 
 export default uploadRoutes;

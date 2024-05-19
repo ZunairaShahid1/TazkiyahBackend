@@ -1,7 +1,7 @@
 import express from "express"
 const uploadRoutes = express.Router()
 import multer from 'multer';
-import { uploadEbook } from "../Controller/EbookController.js";
+import { getEbook, uploadEbook } from "../Controller/EbookController.js";
 
 
 const EbookRoutes = express.Router();
@@ -17,6 +17,7 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({ storage: storage })
-EbookRoutes.post('/:mentorID', upload.single('file'), uploadEbook)
+EbookRoutes.post('/', upload.single('file'), uploadEbook)
+EbookRoutes.get('/', getEbook)
 
 export default EbookRoutes;

@@ -7,7 +7,7 @@ export const uploadEbook = async (req, res) => {
     const fileName = req.file.filename;
     const title = req.body.title;
     try {
-        const data = await EbookModel.post({ name: title, link: fileName });
+        const data = await EbookModel.create({ name: title, link: fileName });
         if (!data) {
             throw new Error('User not found');
         }
