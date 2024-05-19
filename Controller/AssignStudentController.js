@@ -85,6 +85,21 @@ export const getStudent = async (req, res) => {
     }
 }
 
+export const getMentorAssigned = async (req, res, next) => {
+    try{
+        const {manager} = req.params;
+        const registerationData = await RegisterationModel.findById(manager);
+        req.query.dept = registerationData.dept;
+        req.query.subDept = registerationData.subDept;
+        next();
+    }catch(err){
+        res.status(400).json({
+            status: "failed",
+            message: err.message
+        });
+    }
+}
+
 export const getMentorDetails = async (req, res) => {
     try {
         const { dept, subDept } = req.query;
@@ -102,8 +117,9 @@ export const getMentorDetails = async (req, res) => {
                             input: "$assignedStudents",
                             as: "student",
                             in: {
-                                id: "$$student._id",
+                                id: "$$student.studentsID",
                                 sapID: "$$student.sapID",
+                                studentsID: "$$student.studentID",
                                 department: "$$student.department"
                             }
                         }
@@ -114,7 +130,6 @@ export const getMentorDetails = async (req, res) => {
             }
         ];
 
-        // Add $match stage only if dept is not empty
         if (filters.dept !== "") {
             aggregationPipeline.push({
                 $match: {
