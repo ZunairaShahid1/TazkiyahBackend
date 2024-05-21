@@ -5,6 +5,18 @@ const RegisterationSchema = new mongoose.Schema({
         type: String,
         unique: true,
     },
+    name: {
+        type: String,
+        default: ''
+    },
+    profileDescription: {
+        type: String,
+        default: ''
+    },
+    profilePicture: {
+        type: String,
+        default: ''
+    },
     email: {
         type: String,
         unique: true,

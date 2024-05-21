@@ -69,6 +69,23 @@ export const getUserById = async (req, res) => {
     }
 }
 
+export const updateUserData = async (req, res) => {
+    const {id} = req.params;
+    try{
+        const data = await RegisterationModel.findByIdAndUpdate(id, req.body, {new: true});
+        if(!data) throw new Error('Invalid ID');
+        res.status(200).json({
+            status: 'success',
+            data
+        })
+    }catch(err){
+        res.status(400).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+}
+
 
 export const forgetPassword = async (req, res) => {
     const {email} = req.query;
