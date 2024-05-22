@@ -7,7 +7,7 @@ export const addSessionAttendence = async (req, res) => {
     try{
         if(!mentorId || !eventName || !eventDate || !eventAttendence.length) throw new Error('Please Fill All Fields')
         if(!mongoose.Types.ObjectId.isValid(mentorId)) throw new Error('Invalid ID')
-        if(new Date(eventDate).getTime() < new Date().getTime()) throw new Error('Event date cannot be in the past')
+        if(new Date(eventDate).getTime() >= new Date().getTime()) throw new Error('Event date cannot be in the future')
 
         const mentor = await RegisterationModel.findById(mentorId);
         if(!mentor) throw new Error('Mentor not found')
